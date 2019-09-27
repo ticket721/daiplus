@@ -25,8 +25,7 @@ jobs:
             - name: Run Truffle test suite
               run: npm run test:coverage
 
-            - name: Upload Coverage
-              env:
-                  COVERALLS_SERVICE_NAME: ${{ secrets.COVERALLS_SERVICE_NAME }}
-                  COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-              run: npm run coverage:upload
+            - name: Coveralls
+              uses: coverallsapp/github-action@master
+              with:
+                github-token: ${{ secrets.github_token }}
