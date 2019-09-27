@@ -1,0 +1,32 @@
+name: DaiPlus CI
+
+on: [push]
+
+jobs:
+    build:
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v1
+            - name: Use Node.js 12.x
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 12.x
+            - name: Install dependencies
+              run: npm install
+
+            - name: Run Editorconfig checks
+              run: npm run test:editorconfig
+
+            - name: Run SolHint checks
+              run: npm run test:lint
+
+            - name: Run Truffle test suite
+              run: npm run test:coverage
+
+            - name: Upload Coverage
+              env:
+                  COVERALLS_SERVICE_NAME: ${{ secrets.COVERALLS_SERVICE_NAME }}
+                  COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+              run: npm run coverage:upload
