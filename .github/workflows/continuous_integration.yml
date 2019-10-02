@@ -23,6 +23,8 @@ jobs:
               run: npm run test:lint
 
             - name: Run Truffle test suite
+              env:
+                VERBOSE: true
               run: npm run test:coverage
 
             - name: Coveralls
