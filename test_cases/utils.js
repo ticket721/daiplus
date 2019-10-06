@@ -1,4 +1,5 @@
 const ethers = require('ethers');
+const config = require('../truffle-config');
 
 const getEthersDevDaiContract = async (wallet) => {
     const devdai = artifacts.require('DevDai');
@@ -11,12 +12,24 @@ const getEthersDevDaiContract = async (wallet) => {
     return devdai_ethers.connect(connected_wallet)
 };
 
-const domain = (address) => ({
-    name: 'DaiPlus Meta-Stablecoin v1.0',
-    version: '1',
-    chainId: 1,
-    verifyingContract: address
-});
+const domain = (address) => {
+
+    let name = 'DaiPlus Meta-Stablecoin v1.0';
+
+    if (config.extra_config && config.extra_config.external_modules && config.extra_config.external_modules.daiplus) {
+        const arguments = config.extra_config.external_modules.daiplus.arguments;
+        if (arguments !== null) {
+            name = arguments[0];
+        }
+    }
+
+    return {
+        name,
+        version: '1',
+        chainId: 1,
+        verifyingContract: address
+    }
+};
 
 const snapshot = () => {
     return new Promise((ok, ko) => {
