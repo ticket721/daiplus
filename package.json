@@ -41,7 +41,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/ticket721/mTKN.git"
+        "url": "git+https://github.com/ticket721/daiplus.git"
     },
     "keywords": [
         "erc20"
@@ -49,9 +49,9 @@
     "author": "Iulian Rotaru",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/ticket721/mTKN/issues"
+        "url": "https://github.com/ticket721/daiplus/issues"
     },
-    "homepage": "https://github.com/ticket721/mTKN#readme",
+    "homepage": "https://github.com/ticket721/daiplus#readme",
     "husky": {
         "hooks": {
             "pre-commit": "editorconfig-cli",
