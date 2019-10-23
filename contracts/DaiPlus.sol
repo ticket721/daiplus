@@ -4,7 +4,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20Detailed.sol";
 import "@openzeppelin/contracts/introspection/ERC165.sol";
-import "erc2280/contracts/ERC2280.sol";
+import "erc2280/contracts/IERC2280.sol";
 import "erc2280/contracts/ERC2280Domain.sol";
 
 
@@ -15,7 +15,7 @@ import "erc2280/contracts/ERC2280Domain.sol";
 // | |__| | (_| | | |_|
 // |_____/ \__,_|_|
 //
-contract DaiPlus is ERC2280, ERC20, ERC20Detailed, ERC2280Domain, ERC165 {
+contract DaiPlus is IERC2280, ERC20, ERC20Detailed, ERC2280Domain, ERC165 {
 
     bytes4 constant public ERC2280_ERC165_SIGNATURE = 0x6941bcc3;
     // Equivalent of the following:
@@ -27,7 +27,7 @@ contract DaiPlus is ERC2280, ERC20, ERC20Detailed, ERC2280Domain, ERC165 {
     // bytes4(keccak256('verifyTransferFrom(address,address,uint256,address[2],uint256[4],bytes)')) ^
     // bytes4(keccak256('signedTransferFrom(address,address,uint256,address[2],uint256[4],bytes)')) == 0x6941bcc3;
 
-    IERC20 public dai_address;
+    IERC20 public backer;
 
     constructor (string memory name, string memory symbol, uint8 decimals, address _dai_address)
     ERC20Detailed(name, symbol, decimals)
@@ -39,7 +39,7 @@ contract DaiPlus is ERC2280, ERC20, ERC20Detailed, ERC2280Domain, ERC165 {
         _registerInterface(0x06fdde03); // ERC-20::name
         _registerInterface(0x95d89b41); // ERC-20::symbol
         _registerInterface(0x313ce567); // ERC-20::decimals
-        dai_address = IERC20(_dai_address);
+        backer = IERC20(_dai_address);
     }
 
     // Public Interface
@@ -427,7 +427,7 @@ contract DaiPlus is ERC2280, ERC20, ERC20Detailed, ERC2280Domain, ERC165 {
         if (mtransfer_from.sender == address(this)) {
 
             require(
-                dai_address.balanceOf(mtransfer_from.actors.signer)
+                backer.balanceOf(mtransfer_from.actors.signer)
                 >= mtransfer_from.amount + mtransfer_from.txparams.reward,
                 "DaiPlus::verifyTransferFrom | signer has not enough DAI funds for wrap");
 
@@ -537,6 +537,12 @@ contract DaiPlus is ERC2280, ERC20, ERC20Detailed, ERC2280Domain, ERC165 {
     //
     function nonceOf(address account) external view returns (uint256) {
         return nonces[account];
+    }
+
+    // @notice Utility to retrieve backing ERC-20 contract address.
+    //
+    function getBacker() external view returns (address) {
+        return address(backer);
     }
 
     // @notice Triggers wrap machanism. Caller should approve Dai+ of amount Dai. Transfer from
@@ -719,10 +725,10 @@ contract DaiPlus is ERC2280, ERC20, ERC20Detailed, ERC2280Domain, ERC165 {
     }
 
     function _wrap(address dai_owner, address dai_plus_recipient, uint256 amount) internal {
-        require(dai_address.allowance(dai_owner, address(this)) >= amount,
+        require(backer.allowance(dai_owner, address(this)) >= amount,
             "DaiPlus::wrap | Unable to wrap provided amount, allowance too low");
 
-        dai_address.transferFrom(dai_owner, address(this), amount);
+        backer.transferFrom(dai_owner, address(this), amount);
         ERC20._mint(dai_plus_recipient, amount);
 
         emit IERC20.Transfer(address(this), dai_owner, amount);
@@ -738,7 +744,7 @@ contract DaiPlus is ERC2280, ERC20, ERC20Detailed, ERC2280Domain, ERC165 {
 
         emit IERC20.Transfer(dai_plus_owner, address(this), amount);
 
-        dai_address.transfer(dai_recipient, amount);
+        backer.transfer(dai_recipient, amount);
     }
 
 }

@@ -4,6 +4,7 @@ const {revert, snapshot} = require('../test_cases/utils');
 chai.use(chaiAsPromised);
 
 const {erc165_interfaces_check} = require('../test_cases/erc165_interfaces_check');
+const {backer_address_check} = require('../test_cases/backer_address_check');
 const {mtransfer} = require('../test_cases/mtransfer');
 const {mtransfer_invalid_signature} = require('../test_cases/mtransfer_invalid_signature');
 const {mapprove} = require('../test_cases/mapprove');
@@ -47,6 +48,8 @@ contract('daiplus', (accounts) => {
 
     it('supportsInterface 0x6941bcc3 (daiplus) & 0x01ffc9a7 (ERC-165) & 0x36372b07 (ERC-20) & 0x06fdde03 (ERC-20::name) & 0x95d89b41 (ERC-20::symbol) & 0x313ce567 (ERC-20::decimals)',
         erc165_interfaces_check.bind(null, accounts, expect));
+    it('getBacker',
+        backer_address_check.bind(null, accounts, expect));
     it('mTransfer',
         mtransfer.bind(null, accounts, expect));
     it('mTransfer with invalid signature',
