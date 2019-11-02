@@ -17,15 +17,14 @@ import "erc2280/contracts/ERC2280Domain.sol";
 //
 contract DaiPlus is IERC2280, ERC20, ERC20Detailed, ERC2280Domain, ERC165 {
 
-    bytes4 constant public ERC2280_ERC165_SIGNATURE = 0x6941bcc3;
-    // Equivalent of the following:
-    // bytes4(keccak256('nonceOf(address)')) ^
-    // bytes4(keccak256('verifyTransfer(address,uint256,address[2],uint256[4],bytes)')) ^
-    // bytes4(keccak256('signedTransfer(address,uint256,address[2],uint256[4],bytes)')) ^
-    // bytes4(keccak256('verifyApprove(address,uint256,address[2],uint256[4],bytes)')) ^
-    // bytes4(keccak256('signedApprove(address,uint256,address[2],uint256[4],bytes)')) ^
-    // bytes4(keccak256('verifyTransferFrom(address,address,uint256,address[2],uint256[4],bytes)')) ^
-    // bytes4(keccak256('signedTransferFrom(address,address,uint256,address[2],uint256[4],bytes)')) == 0x6941bcc3;
+    bytes4 constant public ERC2280_ERC165_SIGNATURE = // 0x25961920
+    bytes4(keccak256('nonceOf(address)')) ^
+    bytes4(keccak256('verifyTransfer(address[3],uint256[5],bytes)')) ^
+    bytes4(keccak256('signedTransfer(address[3],uint256[5],bytes)')) ^
+    bytes4(keccak256('verifyApprove(address[3],uint256[5],bytes)')) ^
+    bytes4(keccak256('signedApprove(address[3],uint256[5],bytes)')) ^
+    bytes4(keccak256('verifyTransferFrom(address[4],uint256[5],bytes)')) ^
+    bytes4(keccak256('signedTransferFrom(address[4],uint256[5],bytes)'));
 
     IERC20 public backer;
 
