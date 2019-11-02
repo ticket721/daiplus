@@ -31,7 +31,7 @@ contract DaiPlus is IERC2280, ERC20, ERC20Detailed, ERC2280Domain, ERC165 {
 
     constructor (string memory name, string memory symbol, uint8 decimals, address _dai_address)
     ERC20Detailed(name, symbol, decimals)
-    ERC2280Domain(name)
+    ERC2280Domain(name, "1", 1)
     ERC165()
     public {
         _registerInterface(ERC2280_ERC165_SIGNATURE);
