@@ -9,7 +9,7 @@
         "@openzeppelin/contracts": "2.3.0",
         "@ticket721/e712": "0.2.0",
         "erc2280": "1.2.0",
-        "ethers": "^4.0.36",
+        "ethers": "^4.0.39",
         "truffle": "^5.0.35",
         "truffle-plugin-verify": "^0.3.3"
     },
