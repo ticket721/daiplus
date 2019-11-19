@@ -9,15 +9,15 @@ module.exports = async function(deployer) {
     let symbol = 'Dai+';
     let decimal = 18;
 
-    if (config.extra_config && config.extra_config.external_modules && config.extra_config.external_modules.daiplus) {
-        const arguments = config.extra_config.external_modules.daiplus.arguments;
-        if (arguments !== null) {
+    if (config.args) {
+        const args = config.args;
+        if (args !== null) {
             console.log('Build arguments provided in config');
-            name = arguments[0];
-            symbol = arguments[1];
-            decimal = arguments[2];
-            if (arguments[3]) {
-                dai_contract_address = arguments[3];
+            name = args.ERC20.name;
+            symbol = args.ERC20.symbol;
+            decimal = args.ERC20.decimals;
+            if (args.DaiAddress) {
+                dai_contract_address = args.DaiAddress;
             }
         }
     }
