@@ -10,7 +10,7 @@
         "@ticket721/e712": "0.2.0",
         "erc2280": "1.2.0",
         "ethers": "^4.0.36",
-        "truffle": "^5.0.35",
+        "truffle": "^5.1.5",
         "truffle-plugin-verify": "^0.3.3"
     },
     "devDependencies": {
