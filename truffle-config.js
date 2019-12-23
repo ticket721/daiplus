@@ -3,7 +3,7 @@
 const config = {
     compilers: {
         solc: {
-            version: "0.5.7",
+            version: "0.5.15",
             settings: {
                 optimizer: {
                     enabled: true,
